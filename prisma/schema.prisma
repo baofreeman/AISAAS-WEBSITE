@@ -1,0 +1,167 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String           @id @default(cuid())
+  name             String?
+  username         String?          @unique
+  email            String?          @unique
+  emailVerified    DateTime?
+  image            String?
+  accounts         Account[]
+  conversations    Conversation[]
+  videos           Video[]
+  photos           Photo[]
+  audios           Audio[]
+  userSubscription UserSubscription?
+  apiLimit         UserApiLimit?
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+ 
+model Account {
+  id                       String  @id @default(cuid())
+  userId                   String
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String? @db.Text
+  access_token             String? @db.Text
+  expires_at               Int?
+  token_type               String?
+  scope                    String?
+  id_token                 String? @db.Text
+  session_state            String?
+  refresh_token_expires_in Int?
+  user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model UserApiLimit {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  count     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserSubscription {
+  id                     String    @id @default(cuid())
+  userId                 String    @unique
+  stripeCustomerId       String?   @unique @map(name: "stripe_customer_id")
+  stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
+  stripePriceId          String?   @map(name: "stripe_price_id")
+  stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
+  user                   User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Conversation {
+  id        String                @id @default(cuid())
+  userId    String
+  user      User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime              @default(now())
+  updatedAt DateTime              @updatedAt
+  messages  ConversationMessage[]
+
+  @@index([userId])
+}
+
+model Photo {
+  id        String         @id @default(cuid())
+  userId    String
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  messages  PhotoMessage[]
+
+  @@index([userId])
+}
+
+model Audio {
+  id        String         @id @default(cuid())
+  userId    String
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  messages  AudioMessage[]
+
+  @@index([userId])
+}
+
+model Video {
+  id        String                @id @default(cuid())
+  userId    String
+  user      User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime              @default(now())
+  updatedAt DateTime              @updatedAt
+  messages  VideoMessage[]
+
+  @@index([userId])
+}
+
+model ConversationMessage {
+  id             String       @id @default(cuid())
+  content        Json
+  sender         String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId])
+  @@index([createdAt])
+}
+
+model PhotoMessage {
+  id        String   @id @default(cuid())
+  content   Json
+  sender    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  photoId   String
+  photo     Photo    @relation(fields: [photoId], references: [id], onDelete: Cascade)
+
+  @@index([photoId])
+  @@index([createdAt])
+}
+
+model VideoMessage {
+  id        String   @id @default(cuid())
+  content   Json
+  sender    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  videoId   String
+  video     Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  @@index([videoId])
+  @@index([createdAt])
+}
+
+model AudioMessage {
+  id        String   @id @default(cuid())
+  content   Json
+  sender    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  audioId   String
+  audio     Audio    @relation(fields: [audioId], references: [id], onDelete: Cascade)
+
+  @@index([audioId])
+  @@index([createdAt])
+}
