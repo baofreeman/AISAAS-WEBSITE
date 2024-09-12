@@ -34,9 +34,9 @@ const ContentPage = async <T,>({
 
   return (
     <div className="w-full h-full relative flex flex-1 overflow-auto">
-      <header className="fixed flex items-center bg-background w-full h-20 top-0 p-4 z-50 md:h-14">
+      <div className="fixed flex items-center bg-background w-full h-20 top-0 p-4 z-50 md:h-14">
         <h1 className="text-lg text-left font-bold">{title}</h1>
-      </header>
+      </div>
       <ContentComponent initialMessages={messages} />
     </div>
   );

@@ -1,20 +1,31 @@
+version: "3.8"
+
 services:
-  # Next.js
   web:
-    build: .
-    ports:
-      - "3000:3000"
+    build:
+      context: .
+      dockerfile: Dockerfile
     env_file:
       - .env
-    command: ["npm", "start"]
-
-  # Prisma
-  prisma:
-    image: node:18
-    working_dir: /app
     volumes:
       - .:/app
-    command: ["npx", "prisma", "generate"]
+      - /app/node_modules
+    networks:
+      - app-network
 
-volumes:
-  db_data:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    depends_on:
+      web:
+        condition: service_healthy
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - .:/app
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
