@@ -19,14 +19,8 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
-
       - name: Install dependencies
-        run: |
-          npm ci
+        run: npm ci
 
       - name: Set environment variables
         run: |
@@ -41,9 +35,13 @@ jobs:
           echo "STRIPE_WEBHOOK_SECRET=${{ secrets.STRIPE_WEBHOOK_SECRET }}" >> $GITHUB_ENV
 
       - name: Build project
-        run: |
-          npm run build
+        run: npm run build
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
 
       - name: SSH into EC2 and restart services
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@ec2-16-171-176-228.eu-north-1.compute.amazonaws.com 'cd ~/AI-SAAS && git pull origin main'
+          rsync -avz --exclude='node_modules' --exclude='.git' --exclude='.next/cache' . ubuntu@ec2-16-171-176-228.eu-north-1.compute.amazonaws.com:~/AI-SAAS
