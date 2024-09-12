@@ -42,6 +42,8 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
 
-      - name: SSH into EC2 and restart services
+      - name: Deploy to EC2
         run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@ec2-16-171-176-228.eu-north-1.compute.amazonaws.com 'rm -rf ~/AI-SAAS/.next'
           rsync -avz --exclude='node_modules' --exclude='.git' --exclude='.next/cache' . ubuntu@ec2-16-171-176-228.eu-north-1.compute.amazonaws.com:~/AI-SAAS
+          ssh -o StrictHostKeyChecking=no ubuntu@ec2-16-171-176-228.eu-north-1.compute.amazonaws.com 'cd ~/AI-SAAS && git pull origin main'
