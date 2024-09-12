@@ -35,7 +35,7 @@ jobs:
           echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> $GITHUB_ENV
           echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> $GITHUB_ENV
           echo "NEXT_PUBLIC_APP_URL=${{ secrets.NEXT_PUBLIC_APP_URL }}" >> $GITHUB_ENV
-          echo "OPEN_API_KEY=${{ secrets.OPEN_API_KEY }}" >> $GITHUB_ENV
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> $GITHUB_ENV
           echo "REPLICATE_API_KEY=${{ secrets.REPLICATE_API_KEY }}" >> $GITHUB_ENV
           echo "STRIPE_API_KEY=${{ secrets.STRIPE_API_KEY }}" >> $GITHUB_ENV
           echo "STRIPE_WEBHOOK_SECRET=${{ secrets.STRIPE_WEBHOOK_SECRET }}" >> $GITHUB_ENV
