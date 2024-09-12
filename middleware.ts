@@ -16,34 +16,42 @@ export default auth((req) => {
   const isPublicRoutes = PUBLIC_ROUTES.includes(nextUrl.pathname);
   const isAuthRoute = AUTH_ROUTES.includes(nextUrl.pathname);
 
+  console.log("Middleware triggered for:", nextUrl.pathname);
+  console.log("Is logged in:", isLoggedIn);
+  console.log("Is API auth route:", isApiAuthRoutes);
+  console.log("Is public route:", isPublicRoutes);
+  console.log("Is auth route:", isAuthRoute);
+
   if (isApiAuthRoutes) {
-    console.log("is api");
+    console.log("Allowing API auth route");
     return;
   }
 
   if (isAuthRoute) {
-    console.log("is auth");
+    console.log("Auth route detected");
 
     if (isLoggedIn) {
-      console.log("is login");
-
+      console.log("User is logged in, redirecting to:", DEFAULT_LOGIN_REDIRECT);
       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
+    console.log("User is not logged in, allowing access to auth route");
     return;
   }
 
   if (!isLoggedIn && !isPublicRoutes) {
-    console.log("login");
+    console.log("User is not logged in and not on a public route");
     let callbackUrl = nextUrl.pathname;
     if (nextUrl.search) {
       callbackUrl += nextUrl.search;
     }
     const encodedCallbackUrl = encodeURIComponent(callbackUrl);
+    console.log("Redirecting to login with callback URL:", encodedCallbackUrl);
     return Response.redirect(
       new URL(`/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
     );
   }
 
+  console.log("Allowing access to route:", nextUrl.pathname);
   return;
 });
 
