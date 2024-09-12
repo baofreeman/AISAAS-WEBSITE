@@ -1,0 +1,37 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+      - release/*
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+
+      - name: Install dependencies
+        run: |
+          npm ci
+
+      - name: Build project
+        run: |
+          npm run build
+
+      - name: SSH into EC2 and restart services
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@clothes-freeman.store 'cd ~/AI-SAAS && git pull origin main'
