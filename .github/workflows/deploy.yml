@@ -28,14 +28,14 @@ jobs:
         run: |
           npm ci
 
+      - name: Set environment variables
+        run: |
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+
       - name: Build project
         run: |
           npm run build
 
       - name: SSH into EC2 and restart services
-
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@ec2-16-171-176-228.eu-north-1.compute.amazonaws.com 'cd ~/AI-SAAS && git pull origin main'
