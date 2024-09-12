@@ -74,8 +74,6 @@ const AudioContent = ({ initialMessages }: { initialMessages: any }) => {
     scrollToBottom();
   }, [messages]);
 
-  console.log(messages);
-
   return (
     <div className="flex w-full h-full flex-col focus-visible:outline-0">
       <div className="flex-1 overflow-hidden">

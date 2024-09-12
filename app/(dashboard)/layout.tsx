@@ -1,10 +1,18 @@
-import UpgradeProModal from "@/components/dashboard/upgrade-pro-modal";
-import Sidebar from "@/components/sidebar";
-import MobileSidebar from "@/components/sidebar/mobileSidebar";
+import dynamic from "next/dynamic";
 import Topbar from "@/components/topbar";
 import { checkSubscription, getApiLimitCount } from "@/lib/api-limit";
 import { cn } from "@/lib/utils";
 import React from "react";
+
+const UpgradeProModal = dynamic(
+  () => import("@/components/dashboard/upgrade-pro-modal"),
+  { ssr: false }
+);
+const Sidebar = dynamic(() => import("@/components/sidebar"), { ssr: false });
+const MobileSidebar = dynamic(
+  () => import("@/components/sidebar/mobile-sidebar"),
+  { ssr: false }
+);
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   const isProPlan = await checkSubscription();
@@ -14,7 +22,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
     <div
       className={cn(
         "relative flex flex-col w-full h-full overflow-hidden z-0",
-        "md:flex-row",
+        "md:flex-col",
         "lg:flex-row"
       )}
     >

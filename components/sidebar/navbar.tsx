@@ -19,7 +19,7 @@ const Navbar = () => {
                 "hover:opacity-100",
                 isMinimal && "px-1",
                 pathname.includes(url) &&
-                  "transition-colors bg-primary opacity-100"
+                  "transition-colors bg-card-foreground opacity-100"
               )}
             >
               <div className="flex items-center p-2">

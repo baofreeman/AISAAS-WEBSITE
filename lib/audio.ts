@@ -89,7 +89,6 @@ export const getAudioMessages = async (audioId: string, page: number) => {
       };
     });
 
-    console.log(messages);
     return messages;
   } catch (error) {
     return [];

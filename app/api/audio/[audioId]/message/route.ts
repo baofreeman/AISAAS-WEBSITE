@@ -84,7 +84,6 @@ export async function POST(req: Request) {
       where: { id: audio.id },
       data: { updatedAt: new Date() },
     });
-    console.log(output);
     return NextResponse.json(output);
   } catch (error) {
     console.log("Error", error);

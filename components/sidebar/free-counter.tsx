@@ -24,7 +24,7 @@ const FreeCounter: React.FC<FreeCounterProps> = ({
   }
 
   return (
-    <div className="border-t border-t-gray-950 pt-2">
+    <div className="border-t border-t-card-foreground pt-2">
       {!isProPlan && (
         <div className="mb-4">
           <div className="text-center mb-2 text-muted-foreground font-semibold">

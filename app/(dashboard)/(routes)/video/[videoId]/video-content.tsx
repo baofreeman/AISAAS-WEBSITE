@@ -54,7 +54,6 @@ const VideoContent = ({ initialMessages }: { initialMessages: any }) => {
       }
 
       const data = await response.json();
-      console.log(data);
       const newAssistantMessage = { role: "assistant", content: data };
       setMessages((prevMessages) => [...prevMessages, newAssistantMessage]);
       form.reset({ prompt: "" });
@@ -72,8 +71,6 @@ const VideoContent = ({ initialMessages }: { initialMessages: any }) => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
-  console.log(messages);
 
   return (
     <div className="flex w-full h-full flex-col focus-visible:outline-0">

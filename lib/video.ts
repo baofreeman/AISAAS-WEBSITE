@@ -90,8 +90,6 @@ export const getVideoMessage = async (videoId: string, page: number) => {
       };
     });
 
-    console.log(messages);
-
     return messages;
   } catch (error) {
     return [];

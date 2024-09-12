@@ -40,7 +40,7 @@ const ToolItem: React.FC<ToolItemProps> = ({ icon, slug, title, url }) => {
       <Link href={url} className="w-full">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <div className="mr-6 rounded-lg p-1 w-16 h-16 relative flex justify-center">
+            <div className="mr-6 rounded-lg p-1 w-16 h-auto relative flex justify-center">
               <div className={cn(toolItemColorVariants({ color: slug }))} />
               <Image width={24} height={24} src={icon} alt={title} />
             </div>

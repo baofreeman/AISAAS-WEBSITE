@@ -1,6 +1,11 @@
 "use client";
 
-import { Sheet, SheetContent } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import Sidebar from ".";
 import { useSidebarStore } from "@/store/sidebar-store";
 import { useEffect, useState } from "react";
@@ -28,9 +33,15 @@ const MobileSidebar: React.FC<MobileSidebarProps> = ({
     <Sheet open={isOpen}>
       <SheetContent
         side={"left"}
-        className="w-screen border-none bg-black p-0 pt-8"
+        className="w-screen border-none bg-background p-0 pt-8"
       >
-        <Sidebar userLimitCount={userLimitCount} isProPlan={isProPlan} />
+        <SheetTitle hidden />
+        <Sidebar
+          userLimitCount={userLimitCount}
+          isProPlan={isProPlan}
+          className="w-full h-full"
+        />
+        <SheetDescription hidden />
       </SheetContent>
     </Sheet>
   );

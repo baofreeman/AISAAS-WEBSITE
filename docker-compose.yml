@@ -1,0 +1,20 @@
+services:
+  # Next.js
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    command: ["npm", "start"]
+
+  # Prisma
+  prisma:
+    image: node:18
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: ["npx", "prisma", "generate"]
+
+volumes:
+  db_data:
