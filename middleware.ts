@@ -13,6 +13,7 @@ export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
   const isApiAuthRoutes = nextUrl.pathname.startsWith(API_AUTH_PREFIX);
+  const isStripe = nextUrl.pathname.startsWith("/api/webhook");
   const isPublicRoutes = PUBLIC_ROUTES.includes(nextUrl.pathname);
   const isAuthRoute = AUTH_ROUTES.includes(nextUrl.pathname);
 
@@ -21,6 +22,11 @@ export default auth((req) => {
   console.log("Is API auth route:", isApiAuthRoutes);
   console.log("Is public route:", isPublicRoutes);
   console.log("Is auth route:", isAuthRoute);
+
+  if (isStripe) {
+    console.log("Allowing request to Stripe webhook");
+    return;
+  }
 
   if (isApiAuthRoutes) {
     console.log("Allowing API auth route");
