@@ -82,6 +82,6 @@ export const checkSubscription = async () => {
     return !!isValid;
   } catch (error) {
     console.error("Error checking subscription:", error);
-    return false; // Assume no valid subscription in case of error
+    return false;
   }
 };
