@@ -1,4 +1,4 @@
-import { NAVIGATIONS } from "@/contants";
+import { NAVIGATIONS } from "@/constants";
 import { cn } from "@/lib/utils";
 import { useSidebarStore } from "@/store/sidebar-store";
 import Image from "next/image";

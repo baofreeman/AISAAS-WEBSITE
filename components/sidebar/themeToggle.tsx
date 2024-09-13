@@ -1,6 +1,6 @@
 "use client";
 
-import { THEME_MODE } from "@/contants";
+import { THEME_MODE } from "@/constants";
 import { cn } from "@/lib/utils";
 import { useSidebarStore } from "@/store/sidebar-store";
 import { Moon, Sun } from "lucide-react";

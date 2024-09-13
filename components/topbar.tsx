@@ -1,11 +1,12 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Logo from "./logo";
 import { Button } from "./ui/button";
 import { Menu } from "lucide-react";
 import { useSidebarStore } from "@/store/sidebar-store";
+import Link from "next/link";
 
 const Topbar = () => {
   const { handleOpenOrClose } = useSidebarStore();
@@ -17,9 +18,9 @@ const Topbar = () => {
         "lg:hidden"
       )}
     >
-      <div className="flex items-center">
+      <Link href="/" className="flex items-center">
         <Logo />
-      </div>
+      </Link>
       <Button variant="ghost" size="icon" onClick={handleOpenOrClose}>
         <Menu />
       </Button>

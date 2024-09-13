@@ -1,4 +1,4 @@
-import { TOOLS } from "@/contants";
+import { TOOLS } from "@/constants";
 import ToolItem from "../dashboard/tool-item";
 
 const Content = () => {

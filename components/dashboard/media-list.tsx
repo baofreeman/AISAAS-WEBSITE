@@ -31,7 +31,7 @@ const MediaList: React.FC<MediaListProps> = ({
   }
 
   return (
-    <div className="w-full h-full p-8 relative">
+    <div className="w-full h-full p-8 relative overflow-hidden">
       <div className="w-full h-full flex flex-col gap-4 items-center justify-center overflow-y-auto">
         {items.map((item) => (
           <Link

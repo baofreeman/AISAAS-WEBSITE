@@ -1,5 +1,5 @@
 import prisma from "@/lib/prismadb";
-import { DAY_IN_MS, MAX_FREE_COUNTS } from "@/contants";
+import { DAY_IN_MS, MAX_FREE_COUNTS } from "@/constants";
 import { currentUser } from "./auth";
 
 export const increaseApiLimit = async () => {

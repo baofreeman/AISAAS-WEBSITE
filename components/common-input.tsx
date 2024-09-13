@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { AMOUNT_OPTIONS, RESOLUTION_OPTIONS } from "@/contants";
+import { AMOUNT_OPTIONS, RESOLUTION_OPTIONS } from "@/constants";
 import { cn } from "@/lib/utils";
 
 interface CommonInputProps<T extends FieldValues> {

@@ -1,6 +1,6 @@
 "use client";
 
-import { MAX_FREE_COUNTS } from "@/contants";
+import { MAX_FREE_COUNTS } from "@/constants";
 import { Progress } from "../ui/progress";
 import { useEffect, useState } from "react";
 

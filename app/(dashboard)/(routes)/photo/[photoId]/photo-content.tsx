@@ -27,7 +27,12 @@ import { useToast } from "@/components/ui/use-toast";
 
 interface Message {
   role: string;
-  content: string | string[];
+  content: {
+    prompt?: string;
+    amount?: number;
+    resolution?: string;
+    urls?: string[];
+  };
 }
 
 const PhotoContent = React.memo(
@@ -53,10 +58,13 @@ const PhotoContent = React.memo(
           setIsLoading(true);
           const newUserMessage: Message = {
             role: "user",
-            content: values.prompt,
+            content: {
+              prompt: values.prompt,
+              amount: values.amount,
+              resolution: values.resolution,
+            },
           };
           setMessages((prevMessages) => [...prevMessages, newUserMessage]);
-          form.reset({ prompt: "" });
 
           const response = await fetch(`/api/photo/${photoId}/message`, {
             method: "POST",

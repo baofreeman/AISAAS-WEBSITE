@@ -21,18 +21,18 @@ export const TOOLS: ToolItemProps[] = [
     slug: "photo",
   },
   {
-    title: "Video generation",
-    icon: "/icons/video.svg",
-    url: "/video",
-    color: "bg-amber-500",
-    slug: "video",
-  },
-  {
     title: "Audio generation",
     icon: "/icons/audio.svg",
     url: "/audio",
     color: "bg-orange-500",
     slug: "audio",
+  },
+  {
+    title: "Video generation",
+    icon: "/icons/video.svg",
+    url: "/video",
+    color: "bg-amber-500",
+    slug: "video",
   },
 ];
 

@@ -3,7 +3,7 @@
 import { CommonInput } from "@/components/common-input";
 import Empty from "@/components/empty";
 import Loader from "@/components/loader";
-import { audioSchema, conversationSchema } from "@/schema/form-schema";
+import { audioSchema } from "@/schema/form-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";

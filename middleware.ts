@@ -5,7 +5,7 @@ import {
   AUTH_ROUTES,
   PUBLIC_ROUTES,
   DEFAULT_LOGIN_REDIRECT,
-} from "./contants";
+} from "./constants";
 
 const { auth } = NextAuth(authConfig);
 

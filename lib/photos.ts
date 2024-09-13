@@ -66,31 +66,26 @@ export const getPhotoById = async (photoId: string) => {
 
 export const getPhotoMessages = async (photoId: string, page: number) => {
   try {
-    const limit = 8;
-    const skip = page * limit;
+    const MESSAGES_PER_PAGE = 8;
+    const skip = page * MESSAGES_PER_PAGE;
 
-    const messageExisting = await prisma.photoMessage.findMany({
-      where: { photoId: photoId },
+    const messages = await prisma.photoMessage.findMany({
+      where: { photoId },
       skip: skip,
-      take: limit,
+      take: MESSAGES_PER_PAGE,
       orderBy: {
-        createdAt: "desc",
+        createdAt: "asc",
       },
     });
 
-    if (!messageExisting || messageExisting.length === 0) {
+    if (!messages || messages.length === 0) {
       return [];
     }
 
-    const messages = messageExisting.reverse().map(({ sender, content }) => {
-      const parsedContent = JSON.parse(content as string);
-      return {
-        role: sender === "user" ? "user" : "assistant",
-        content: parsedContent,
-      };
-    });
-
-    return messages;
+    return messages.map(({ sender, content }) => ({
+      role: sender === "user" ? "user" : "assistant",
+      content: JSON.parse(content as string),
+    }));
   } catch (error) {
     return [];
   }

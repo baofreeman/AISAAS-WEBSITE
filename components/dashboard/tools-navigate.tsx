@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { TOOLS } from "@/contants";
+import { TOOLS } from "@/constants";
 import { cn } from "@/lib/utils";
 import ToolItem from "./tool-item";
 
