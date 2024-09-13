@@ -1,5 +1,9 @@
-import { useForm, FieldValues, DefaultValues } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  useForm,
+  FieldValues,
+  DefaultValues,
+  UseFormReturn,
+} from "react-hook-form";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,27 +20,20 @@ import { AMOUNT_OPTIONS, RESOLUTION_OPTIONS } from "@/contants";
 import { cn } from "@/lib/utils";
 
 interface CommonInputProps<T extends FieldValues> {
-  schema: z.ZodSchema<T>;
-  defaultValues: T;
   onSubmit: (values: T) => Promise<void>;
   placeholder?: string;
   isLoading?: boolean;
   showFields?: boolean;
+  form: UseFormReturn<T>;
 }
 
 export const CommonInput = <T extends FieldValues>({
-  schema,
-  defaultValues,
   onSubmit,
-  placeholder = "Start an conversation...",
+  placeholder = "Start a conversation...",
   isLoading = false,
   showFields = false,
+  form,
 }: CommonInputProps<T>) => {
-  const form = useForm<T>({
-    resolver: zodResolver(schema),
-    defaultValues: defaultValues as DefaultValues<T>,
-  });
-
   return (
     <div className={cn("text-md px-3 w-full", "md:px-5", "lg:px-1", "xl:px-5")}>
       <div className="w-full">

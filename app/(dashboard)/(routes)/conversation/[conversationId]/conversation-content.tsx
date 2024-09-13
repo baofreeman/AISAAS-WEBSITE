@@ -39,8 +39,6 @@ const ConversationContent = React.memo(
           const newUserMessage = { role: "user", content: values.prompt };
           setMessages((prevMessages) => [...prevMessages, newUserMessage]);
 
-          form.reset({ prompt: "" });
-
           const response = await fetch(
             `/api/conversation/${conversationId}/message`,
             {
@@ -54,8 +52,6 @@ const ConversationContent = React.memo(
               }),
             }
           );
-
-          setIsLoading(false);
 
           if (!response.ok) {
             if (response.status === 403) {
@@ -84,6 +80,7 @@ const ConversationContent = React.memo(
           });
         } finally {
           setIsLoading(false);
+          form.reset({ prompt: "" });
         }
       },
       [conversationId, form, toast]
@@ -117,11 +114,10 @@ const ConversationContent = React.memo(
           </div>
         </div>
         <CommonInput
-          schema={conversationSchema}
-          defaultValues={{ prompt: "" }}
           onSubmit={onSubmit}
           isLoading={isLoading}
           placeholder="Start the conversation..."
+          form={form}
         />
       </div>
     );
