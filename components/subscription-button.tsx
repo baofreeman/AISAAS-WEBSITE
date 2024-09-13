@@ -21,8 +21,16 @@ const SubScriptionButton: React.FC<SubScriptionButtonProps> = ({
   const handleSubcribe = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get("/api/stripe");
-      location.href = data.url;
+
+      if (isPro) {
+        await axios.post("/api/cancel-subscription");
+        toast({
+          description: "Your subscription has been canceled.",
+        });
+      } else {
+        const { data } = await axios.get("/api/stripe");
+        location.href = data.url;
+      }
     } catch (error) {
       toast({ variant: "destructive", description: "Something went wrong!" });
     } finally {
