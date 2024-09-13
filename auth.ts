@@ -33,7 +33,9 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             user = await prisma.user.create({
               data: {
                 id: userId,
-                // Include any other required user fields
+                name: profile?.name ?? null,
+                email: profile?.email ?? null,
+                image: profile?.picture ?? null,
               },
             });
           }
