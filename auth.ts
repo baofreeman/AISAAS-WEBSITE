@@ -21,7 +21,25 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     async signIn({ account, profile }) {
       if (account?.provider === "google") {
         try {
-          let existingAccount = await prisma.account.findUnique({
+          const userId = profile?.sub ?? "";
+
+          // Check if the user exists
+          let user = await prisma.user.findUnique({
+            where: { id: userId },
+          });
+
+          // Create a new user if not exists
+          if (!user) {
+            user = await prisma.user.create({
+              data: {
+                id: userId,
+                // Include any other required user fields
+              },
+            });
+          }
+
+          // Check if the account exists
+          const existingAccount = await prisma.account.findUnique({
             where: {
               provider_providerAccountId: {
                 provider: account.provider,
@@ -31,6 +49,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           });
 
           if (existingAccount) {
+            // Update existing account
             await prisma.account.update({
               data: {
                 refresh_token: account.refresh_token,
@@ -47,9 +66,10 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
               },
             });
           } else {
+            // Create a new account
             await prisma.account.create({
               data: {
-                userId: profile?.sub ?? "",
+                userId: user.id,
                 type: account.type,
                 provider: account.provider,
                 providerAccountId: account.providerAccountId,
