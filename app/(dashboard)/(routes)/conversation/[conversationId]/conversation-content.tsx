@@ -55,6 +55,8 @@ const ConversationContent = React.memo(
             }
           );
 
+          setIsLoading(false);
+
           if (!response.ok) {
             if (response.status === 403) {
               toast({
