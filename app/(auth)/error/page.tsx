@@ -1,15 +1,15 @@
 import { useEffect } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function ErrorPage() {
   const router = useRouter();
-  const { error } = router.query;
+  const searchParams = new URLSearchParams(window.location.search);
+  const error = searchParams.get("error");
 
   useEffect(() => {
     if (error === "OAuthAccountNotLinked") {
       // Handle the specific error for OAuth account not linked
       console.error("OAuth account is not linked to an existing account");
-      // You might want to show a specific message or redirect to a specific page
     }
   }, [error]);
 
