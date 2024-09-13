@@ -72,6 +72,27 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         where: { userId: token.sub!, provider: "google" },
       });
 
+      if (!googleAccount) {
+        try {
+          await prisma.account.create({
+            data: {
+              userId: token.sub!,
+              provider: "google",
+              providerAccountId: token.sub!,
+              access_token: token.accessToken as string,
+              refresh_token: token.refreshToken as string,
+              expires_at: token.expiresIn
+                ? Math.floor(Date.now() / 1000 + Number(token.expiresIn))
+                : null,
+            },
+          });
+        } catch (error) {
+          console.error("Error creating new account entry", error);
+          session.error = "RefreshTokenError";
+          return session;
+        }
+      }
+
       if (
         googleAccount &&
         googleAccount.expires_at &&
