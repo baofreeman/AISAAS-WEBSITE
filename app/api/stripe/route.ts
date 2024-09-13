@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
               name: "AI Pro Plan",
               description: "Unlimited AI Generations",
             },
-            unit_amount: 10_000,
+            unit_amount: 600,
             recurring: {
               interval: "month",
             },
