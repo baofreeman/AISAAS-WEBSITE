@@ -80,10 +80,18 @@ export const getConversationMessages = async (
       return [];
     }
 
-    return messages.reverse().map(({ sender, content }) => ({
+    const formattedMessages = messages.reverse().map(({ sender, content }) => ({
       role: sender === "user" ? "user" : "assistant",
       content: JSON.parse(content as string),
     }));
+
+    const sortedMessages = formattedMessages.sort((a, b) => {
+      if (a.role === "user" && b.role === "assistant") return -1;
+      if (a.role === "assistant" && b.role === "user") return 1;
+      return 0;
+    });
+
+    return sortedMessages;
   } catch (error) {
     console.error("Error fetching conversation messages:", error);
     return [];
