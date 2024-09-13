@@ -27,12 +27,7 @@ import { useToast } from "@/components/ui/use-toast";
 
 interface Message {
   role: string;
-  content: {
-    prompt?: string;
-    amount?: number;
-    resolution?: string;
-    urls?: string[];
-  };
+  content: string | string[];
 }
 
 const PhotoContent = React.memo(
