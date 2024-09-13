@@ -20,11 +20,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   callbacks: {
     async signIn({ account, profile }) {
       if (account?.provider === "google") {
-        if (account.refresh_token) {
-          await prisma.account.update({
-            data: {
-              refresh_token: account.refresh_token,
-            },
+        try {
+          let existingAccount = await prisma.account.findUnique({
             where: {
               provider_providerAccountId: {
                 provider: account.provider,
@@ -32,6 +29,37 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
               },
             },
           });
+
+          if (existingAccount) {
+            await prisma.account.update({
+              data: {
+                refresh_token: account.refresh_token,
+              },
+              where: {
+                provider_providerAccountId: {
+                  provider: account.provider,
+                  providerAccountId: account.providerAccountId,
+                },
+              },
+            });
+          } else {
+            await prisma.account.create({
+              data: {
+                userId: profile?.id ?? "",
+                type: "oauth",
+                provider: account.provider,
+                providerAccountId: account.providerAccountId,
+                refresh_token: account.refresh_token,
+                access_token: account.access_token,
+                expires_at: account.expires_at
+                  ? Math.floor(Date.now() / 1000 + account.expires_at)
+                  : null,
+              },
+            });
+          }
+        } catch (error) {
+          console.error("Error handling account:", error);
+          return false;
         }
       }
       return true;
