@@ -155,7 +155,7 @@ const PhotoContent = React.memo(
     );
 
     return (
-      <div className="flex w-full h-full flex-col focus-visible:outline-0">
+      <div className="flex w-full h-full flex-col focus-visible:outline-0 overflow-hidden">
         <div className="flex-1 overflow-hidden">
           {messages.length === 0 && !isLoading && (
             <Empty label="No images generated." />
