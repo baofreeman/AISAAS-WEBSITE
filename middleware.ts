@@ -22,6 +22,11 @@ export default auth((req) => {
   console.log("Is public route:", isPublicRoutes);
   console.log("Is auth route:", isAuthRoute);
 
+  if (nextUrl.pathname === "/api/webhook") {
+    console.log("Skipping middleware for Stripe webhook");
+    return;
+  }
+
   if (isApiAuthRoutes) {
     console.log("Allowing API auth route");
     return;
