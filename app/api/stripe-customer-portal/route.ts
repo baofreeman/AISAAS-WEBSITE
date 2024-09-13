@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import prisma from "@/lib/prismadb";
 import { currentUser } from "@/lib/auth";
+import { absoluteUrl } from "@/lib/utils";
 
 export async function POST(req: Request) {
   try {
@@ -14,25 +15,21 @@ export async function POST(req: Request) {
       where: { userId: user.id },
     });
 
-    if (!userSubscription || !userSubscription.stripeSubscriptionId) {
+    if (!userSubscription || !userSubscription.stripeCustomerId) {
       return new NextResponse("Subscription not found", { status: 404 });
     }
+    const dashboardUrl = absoluteUrl("/dashboard");
 
-    await stripe.subscriptions.cancel(userSubscription.stripeSubscriptionId);
-
-    await prisma.userSubscription.update({
-      where: { stripeSubscriptionId: userSubscription.stripeSubscriptionId },
-      data: {
-        stripeSubscriptionId: null,
-        stripeCustomerId: null,
-      },
+    const portalSession = await stripe.billingPortal.sessions.create({
+      customer: userSubscription.stripeCustomerId,
+      return_url: dashboardUrl,
     });
 
-    return new NextResponse("Subscription canceled successfully", {
+    return new NextResponse(JSON.stringify({ url: portalSession.url }), {
       status: 200,
     });
   } catch (error) {
-    console.error("Error canceling subscription:", error);
+    console.error("Error creating customer portal session:", error);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
