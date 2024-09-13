@@ -34,6 +34,10 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             await prisma.account.update({
               data: {
                 refresh_token: account.refresh_token,
+                access_token: account.access_token,
+                expires_at: account.expires_at
+                  ? Math.floor(Date.now() / 1000 + account.expires_at)
+                  : null,
               },
               where: {
                 provider_providerAccountId: {
@@ -45,8 +49,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           } else {
             await prisma.account.create({
               data: {
-                userId: profile?.id ?? "",
-                type: "oauth",
+                userId: profile?.sub ?? "",
+                type: account.type,
                 provider: account.provider,
                 providerAccountId: account.providerAccountId,
                 refresh_token: account.refresh_token,
@@ -54,6 +58,9 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
                 expires_at: account.expires_at
                   ? Math.floor(Date.now() / 1000 + account.expires_at)
                   : null,
+                token_type: account.token_type,
+                scope: account.scope,
+                id_token: account.id_token,
               },
             });
           }
@@ -73,29 +80,12 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       });
 
       if (!googleAccount) {
-        try {
-          await prisma.account.create({
-            data: {
-              userId: token.sub!,
-              type: "oauth",
-              provider: "google",
-              providerAccountId: token.sub!,
-              access_token: token.accessToken as string,
-              refresh_token: token.refreshToken as string,
-              expires_at: token.expiresIn
-                ? Math.floor(Date.now() / 1000 + Number(token.expiresIn))
-                : null,
-            },
-          });
-        } catch (error) {
-          console.error("Error creating new account entry", error);
-          session.error = "RefreshTokenError";
-          return session;
-        }
+        console.error("No Google account found for user");
+        session.error = "RefreshTokenError";
+        return session;
       }
 
       if (
-        googleAccount &&
         googleAccount.expires_at &&
         googleAccount.expires_at * 1000 < Date.now()
       ) {
