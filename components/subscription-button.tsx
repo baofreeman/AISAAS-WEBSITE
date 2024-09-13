@@ -21,20 +21,20 @@ const SubScriptionButton: React.FC<SubScriptionButtonProps> = ({
   const handleSubcribe = async () => {
     try {
       setLoading(true);
-  
+
       if (isPro) {
         const { data } = await axios.post("/api/stripe-customer-portal");
-        location.href = data.url; 
+        window.location.href = data.url;
       } else {
         const { data } = await axios.get("/api/stripe");
-        location.href = data.url; 
+        window.location.href = data.url;
+      }
     } catch (error) {
       toast({ variant: "destructive", description: "Something went wrong!" });
     } finally {
       setLoading(false);
     }
   };
-  
 
   return (
     <div className={className}>
