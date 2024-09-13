@@ -7,7 +7,7 @@ export const THEME_MODE = [
 
 export const TOOLS: ToolItemProps[] = [
   {
-    title: "Conversation",
+    title: "Conversation generation",
     icon: "/icons/conversation.svg",
     url: "/conversation",
     color: "bg-blue-500",

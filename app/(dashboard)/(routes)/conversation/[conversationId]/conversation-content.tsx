@@ -11,9 +11,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import LoadMore from "./loadmore";
+import { useToast } from "@/components/ui/use-toast";
 
 const ConversationContent = ({ initialMessages }: { initialMessages: any }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<
     Array<{ role: string; content: string }>
@@ -49,16 +51,29 @@ const ConversationContent = ({ initialMessages }: { initialMessages: any }) => {
         }
       );
 
+      form.reset({ prompt: "" });
+
       if (!response.ok) {
-        throw new Error("Failed to fetch AI response");
+        if (response.status === 403) {
+          toast({
+            variant: "destructive",
+            description: "Free trial has expired. Please upgrade to continue",
+          });
+        } else {
+          throw new Error("Failed to fetch AI response");
+        }
+        return;
       }
 
       const data = await response.json();
       const newAssistantMessage = { role: "assistant", content: data.content };
       setMessages((prevMessages) => [...prevMessages, newAssistantMessage]);
-      form.reset({ prompt: "" });
     } catch (error: any) {
       console.error("Error fetching AI response:", error);
+      toast({
+        variant: "destructive",
+        description: "An error occurred while fetching the AI response.",
+      });
     } finally {
       setIsLoading(false);
     }

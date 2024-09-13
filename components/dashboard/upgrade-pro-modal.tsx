@@ -19,7 +19,7 @@ const UpgradeProModal: React.FC<UpgradeProModalProps> = ({ isProPlan }) => {
   const { isOpen, handleCloseProModal } = useProState();
   return (
     <Dialog open={isOpen} onOpenChange={handleCloseProModal}>
-      <DialogContent showOverlay>
+      <DialogContent className="p-4 lg:p-8">
         <DialogHeader>
           <DialogTitle className="flex justify-center items-center flex-col gap-y-4 pb-2">
             Settings
