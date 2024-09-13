@@ -58,11 +58,7 @@ const PhotoContent = React.memo(
           setIsLoading(true);
           const newUserMessage: Message = {
             role: "user",
-            content: {
-              prompt: values.prompt,
-              amount: values.amount,
-              resolution: values.resolution,
-            },
+            content: values.prompt,
           };
           setMessages((prevMessages) => [...prevMessages, newUserMessage]);
 

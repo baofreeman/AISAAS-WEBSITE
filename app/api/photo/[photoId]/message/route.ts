@@ -29,14 +29,6 @@ export async function POST(req: Request) {
       return new NextResponse("Message is required", { status: 400 });
     }
 
-    if (!amount) {
-      return new NextResponse("Amount is required", { status: 400 });
-    }
-
-    if (!resolution) {
-      return new NextResponse("Resolution is required", { status: 400 });
-    }
-
     const freeTrial = await checkApiLimit();
     const isPro = await checkSubscription();
 
@@ -47,9 +39,21 @@ export async function POST(req: Request) {
       );
     }
 
+    const parsedAmount = parseInt(amount, 10);
+    if (isNaN(parsedAmount) || parsedAmount < 1 || parsedAmount > 10) {
+      return new NextResponse("Invalid amount. Must be between 1 and 10.", {
+        status: 400,
+      });
+    }
+
+    const validResolutions = ["256x256", "512x512", "1024x1024"];
+    if (!validResolutions.includes(resolution)) {
+      return new NextResponse("Invalid resolution.", { status: 400 });
+    }
+
     const response = await openai.images.generate({
       prompt,
-      n: parseInt(amount, 10),
+      n: parsedAmount,
       size: resolution,
     });
 
