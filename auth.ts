@@ -77,6 +77,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           await prisma.account.create({
             data: {
               userId: token.sub!,
+              type: "oauth",
               provider: "google",
               providerAccountId: token.sub!,
               access_token: token.accessToken as string,
