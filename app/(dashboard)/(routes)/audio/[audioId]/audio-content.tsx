@@ -43,7 +43,6 @@ const AudioContent = ({ initialMessages }: { initialMessages: any }) => {
 
         const newUserMessage = { role: "user", content: values.prompt };
         setMessages((prevMessages) => [...prevMessages, newUserMessage]);
-        form.reset({ prompt: "" });
 
         const response = await fetch(`/api/audio/${audioId}/message`, {
           method: "POST",
@@ -76,6 +75,7 @@ const AudioContent = ({ initialMessages }: { initialMessages: any }) => {
         });
       } finally {
         setIsLoading(false);
+        form.reset({ prompt: "" });
       }
     },
     [audioId, form, toast]
@@ -127,8 +127,7 @@ const AudioContent = ({ initialMessages }: { initialMessages: any }) => {
         </div>
       </div>
       <CommonInput
-        schema={conversationSchema}
-        defaultValues={{ prompt: "" }}
+        form={form}
         onSubmit={onSubmit}
         isLoading={isLoading}
         placeholder="Start the audio..."

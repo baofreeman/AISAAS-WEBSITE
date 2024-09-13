@@ -1,14 +1,8 @@
-import {
-  useForm,
-  FieldValues,
-  DefaultValues,
-  UseFormReturn,
-} from "react-hook-form";
+import { FieldValues, UseFormReturn } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Send } from "lucide-react";
-import * as z from "zod";
 import {
   Select,
   SelectContent,
@@ -141,6 +135,7 @@ export const CommonInput = <T extends FieldValues>({
                         </>
                       )}
                       <Button
+                        type="submit"
                         variant={"outline"}
                         disabled={isLoading}
                         className="rounded-full w-10 h-10 flex items-center justify-center p-0 me-1 mb-1"

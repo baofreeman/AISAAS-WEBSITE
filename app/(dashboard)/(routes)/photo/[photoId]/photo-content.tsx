@@ -97,6 +97,7 @@ const PhotoContent = React.memo(
           });
         } finally {
           setIsLoading(false);
+          form.reset({ prompt: "" });
         }
       },
       [photoId, form, toast]
@@ -170,14 +171,9 @@ const PhotoContent = React.memo(
           </div>
         </div>
         <CommonInput
-          schema={photoSchema}
+          form={form}
           onSubmit={onSubmit}
           isLoading={isLoading}
-          defaultValues={{
-            prompt: "",
-            amount: 1,
-            resolution: "512x512",
-          }}
           showFields={true}
         />
       </div>

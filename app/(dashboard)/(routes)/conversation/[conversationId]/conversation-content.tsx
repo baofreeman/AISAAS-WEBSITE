@@ -114,10 +114,10 @@ const ConversationContent = React.memo(
           </div>
         </div>
         <CommonInput
+          form={form}
           onSubmit={onSubmit}
           isLoading={isLoading}
           placeholder="Start the conversation..."
-          form={form}
         />
       </div>
     );

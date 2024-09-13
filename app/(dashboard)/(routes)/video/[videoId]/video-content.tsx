@@ -48,7 +48,6 @@ const VideoContent = React.memo(
 
           const newUserMessage = { role: "user", content: values.prompt };
           setMessages((prevMessages) => [...prevMessages, newUserMessage]);
-          form.reset({ prompt: "" });
 
           const response = await fetch(`/api/video/${videoId}/message`, {
             method: "POST",
@@ -84,6 +83,7 @@ const VideoContent = React.memo(
           });
         } finally {
           setIsLoading(false);
+          form.reset({ prompt: "" });
         }
       },
       [videoId, form, toast]
@@ -145,8 +145,7 @@ const VideoContent = React.memo(
           </div>
         </div>
         <CommonInput
-          schema={conversationSchema}
-          defaultValues={{ prompt: "" }}
+          form={form}
           onSubmit={onSubmit}
           isLoading={isLoading}
           placeholder="Start the video..."
