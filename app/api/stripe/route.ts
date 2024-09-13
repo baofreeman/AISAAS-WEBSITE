@@ -10,12 +10,8 @@ export async function GET(request: NextRequest) {
   try {
     const user = await currentUser();
 
-    if (!user) {
+    if (!user || !user.id || !user.email) {
       return new NextResponse("Unauthorized", { status: 401 });
-    }
-
-    if (!user.email || !user.id) {
-      return new NextResponse("Invalid user data", { status: 400 });
     }
 
     const userSubscription = await prisma.userSubscription.findUnique({

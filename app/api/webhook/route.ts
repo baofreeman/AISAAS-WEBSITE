@@ -82,26 +82,5 @@ export async function POST(req: Request) {
     }
   }
 
-  if (event.type === "customer.subscription.deleted") {
-    const subscription = event.data.object as Stripe.Subscription;
-
-    try {
-      await prisma.userSubscription.update({
-        where: {
-          stripeSubscriptionId: subscription.id,
-        },
-        data: {
-          stripeSubscriptionId: null,
-          stripeCustomerId: null,
-        },
-      });
-    } catch (error) {
-      console.error("Error handling subscription end:", error);
-      return new NextResponse("Error handling subscription end", {
-        status: 400,
-      });
-    }
-  }
-
   return new NextResponse(null, { status: 200 });
 }
