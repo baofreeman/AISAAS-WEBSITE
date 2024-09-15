@@ -4,6 +4,7 @@ const nextConfig = {
     domains: [
       "oaidalleapiprodscus.blob.core.windows.net",
       "lh3.googleusercontent.com",
+      "freemanai.store",
     ],
   },
 };
