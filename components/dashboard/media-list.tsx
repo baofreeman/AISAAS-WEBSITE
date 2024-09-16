@@ -6,6 +6,7 @@ import CreateNewConversation from "@/components/dashboard/create-new-conversatio
 
 interface MediaItem {
   id: string;
+  createdAt: Date;
 }
 
 interface MediaListProps {
@@ -29,21 +30,32 @@ const MediaList: React.FC<MediaListProps> = ({
       </div>
     );
   }
-
   return (
-    <div className="w-full h-full p-8 relative overflow-hidden">
-      <div className="w-full h-full flex flex-col gap-4 items-center justify-center overflow-y-auto">
-        {items.map((item) => (
-          <Link
-            href={getItemLink(item.id)}
-            key={item.id}
-            className="border p-4 rounded-lg"
-          >
-            <h1 className="cursor-pointer">{item.id}</h1>
-          </Link>
-        ))}
-        <div className="mt-6">
+    <div className="w-full h-full flex flex-col lg:px-20">
+      <div className="px-8 py-2">
+        <div className="p-4 flex justify-end">
           <CreateNewConversation />
+        </div>
+      </div>
+      <div className="flex-1 overflow-y-auto p-8">
+        <div className="flex flex-col items-center gap-4">
+          {items.map((item) => {
+            const userTimezone = moment.tz.guess();
+            const formattedDate = moment(item.createdAt)
+              .tz(userTimezone)
+              .format("HH:mm DD-MM-YYYY");
+            return (
+              <Link
+                href={getItemLink(item.id)}
+                key={item.id}
+                className="border p-4 rounded-lg w-full max-w-md"
+              >
+                <h1 className="cursor-pointer text-center">
+                  Created at ${formattedDate}
+                </h1>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </div>

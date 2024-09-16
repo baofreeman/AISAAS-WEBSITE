@@ -25,7 +25,6 @@ export const getConversations = async () => {
         },
       },
     });
-
     return conversations;
   } catch (error) {
     console.error("Error fetching conversations:", error);

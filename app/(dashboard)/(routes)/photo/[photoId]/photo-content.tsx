@@ -37,70 +37,76 @@ const PhotoContent = React.memo(
     const [messages, setMessages] = useState<Message[]>(initialMessages);
     const [isLoading, setIsLoading] = useState(false);
     const { photoId } = usePhoto();
+    let requestCount = 0;
+    const MAX_REQUESTS_PER_MINUTE = 5;
 
     const form = useForm<z.infer<typeof photoSchema>>({
       resolver: zodResolver(photoSchema),
       defaultValues: {
         prompt: "",
-        amount: 1,
+        amount: "1",
         resolution: "512x512",
       },
     });
 
-    const onSubmit = useCallback(
-      async (values: z.infer<typeof photoSchema>) => {
-        try {
-          setIsLoading(true);
-          const newUserMessage: Message = {
-            role: "user",
-            content: values.prompt,
-          };
-          setMessages((prevMessages) => [...prevMessages, newUserMessage]);
+    const onSubmit = async (values: z.infer<typeof photoSchema>) => {
+      if (requestCount >= MAX_REQUESTS_PER_MINUTE) {
+        console.error("Rate limit exceeded. Please try again later.");
+        return;
+      }
+      requestCount++;
+      try {
+        setIsLoading(true);
+        const newUserMessage: Message = {
+          role: "user",
+          content: values.prompt,
+        };
+        setMessages((prevMessages) => [...prevMessages, newUserMessage]);
 
-          const response = await fetch(`/api/photo/${photoId}/message`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              prompt: values.prompt,
-              amount: values.amount,
-              resolution: values.resolution,
-            }),
-          });
+        const response = await fetch(`/api/photo/${photoId}/message`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            prompt: values.prompt,
+            amount: values.amount,
+            resolution: values.resolution,
+          }),
+        });
 
-          if (!response.ok) {
-            if (response.status === 403) {
-              toast({
-                variant: "destructive",
-                description:
-                  "Free trial has expired. Please upgrade to continue",
-              });
-            } else {
-              throw new Error("Failed to fetch AI response");
-            }
-            return;
+        if (!response.ok) {
+          if (response.status === 403) {
+            toast({
+              variant: "destructive",
+              description: "Free trial has expired. Please upgrade to continue",
+            });
+          } else {
+            throw new Error("Failed to fetch AI response");
           }
-
-          const data = await response.json();
-          const newAssistantMessage: Message = {
-            role: "assistant",
-            content: data,
-          };
-          setMessages((prevMessages) => [...prevMessages, newAssistantMessage]);
-        } catch (error: any) {
-          console.error("Error fetching AI response:", error);
-          toast({
-            variant: "destructive",
-            description: "An error occurred while fetching the AI response.",
-          });
-        } finally {
-          setIsLoading(false);
-          form.reset({ prompt: "" });
+          return;
         }
-      },
-      [photoId, form, toast]
-    );
+
+        const data = await response.json();
+        const newAssistantMessage: Message = {
+          role: "assistant",
+          content: data,
+        };
+        setMessages((prevMessages) => [...prevMessages, newAssistantMessage]);
+      } catch (error: any) {
+        console.error("Error fetching AI response:", error);
+        toast({
+          variant: "destructive",
+          description: "An error occurred while fetching the AI response.",
+        });
+      } finally {
+        setIsLoading(false);
+        form.reset({ prompt: "" });
+        setTimeout(() => {
+          requestCount--;
+        }, 60000);
+      }
+    };
 
     const scrollToBottom = useCallback(() => {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });

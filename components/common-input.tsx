@@ -137,7 +137,7 @@ export const CommonInput = <T extends FieldValues>({
                       <Button
                         type="submit"
                         variant={"outline"}
-                        disabled={isLoading}
+                        disabled={isLoading || !form.formState.isValid}
                         className="rounded-full w-10 h-10 flex items-center justify-center p-0 me-1 mb-1"
                       >
                         <Send size={24} />

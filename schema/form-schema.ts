@@ -10,7 +10,7 @@ export const photoSchema = z.object({
   prompt: z.string().min(1, {
     message: "Prompt is required",
   }),
-  amount: z.number().min(1),
+  amount: z.string().min(1),
   resolution: z.string().min(1),
 });
 

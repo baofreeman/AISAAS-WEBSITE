@@ -1,14 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { SquarePen } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const CreateNewConversation = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const formattedPathname = pathname.replace(/^\/|\/$/g, '');
-
+  const formattedPathname = pathname.replace(/^\/|\/$/g, "");
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,12 +34,12 @@ const CreateNewConversation = () => {
 
   return (
     <Button
-      variant={"destructive"}
+      variant={"outline"}
       onClick={handleCreateConversation}
       disabled={isLoading}
-      className="py-4"
+      className="py-4 border-none"
     >
-      {isLoading ? "Creating..." : `Create new ${formattedPathname}`}
+      <SquarePen size={24} />
     </Button>
   );
 };
