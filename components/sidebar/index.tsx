@@ -5,6 +5,7 @@ import { useSidebarStore } from "@/store/sidebar-store";
 import dynamic from "next/dynamic";
 import { Poppins } from "next/font/google";
 import Logo from "../logo";
+import Link from "next/link";
 
 const SidebarToggle = dynamic(() => import("./sidebarToggle"), { ssr: false });
 const Navbar = dynamic(() => import("./navbar"), { ssr: false });
@@ -40,12 +41,14 @@ const Sidebar: React.FC<SidebarProps> = ({
       <div className="h-20 pl-7 pr-6">
         <div className="flex items-center justify-between">
           {!isMinimal && (
-            <div className="group flex gap-2">
-              <Logo />
-              <span className={cn("ml-2 text-2xl", poppins.className)}>
-                FreemanAI
-              </span>
-            </div>
+            <Link href="/">
+              <div className="group flex gap-2">
+                <Logo />
+                <span className={cn("ml-2 text-2xl", poppins.className)}>
+                  FreemanAI
+                </span>
+              </div>
+            </Link>
           )}
           <SidebarToggle />
         </div>
