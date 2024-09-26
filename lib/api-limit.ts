@@ -19,7 +19,6 @@ export const increaseApiLimit = async () => {
     });
   } catch (error) {
     console.error("Error increasing API limit:", error);
-    // Handle the error appropriately
   }
 };
 
