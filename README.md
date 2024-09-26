@@ -2,7 +2,7 @@
 
 ## **GitHub Repository**
 
-- **Code**: [GitHub Repository](https://github.com/baofreeman/AI-SAAS)
+- **Code**: [GitHub Repository](https://github.com/baofreeman/AISAAS-WEBSITE)
 
 ## **Live Demo**
 
@@ -97,7 +97,7 @@ This project utilizes Docker and Gitflow for streamlined development and deploym
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/baofreeman/AI-SAAS
+   git clone https://github.com/baofreeman/AISAAS-WEBSITE
    ```
 
 2. Navigate to the project directory:
@@ -124,7 +124,7 @@ This project utilizes Docker and Gitflow for streamlined development and deploym
 2. Clone the repository:
 
    ```bash
-   git clone https://github.com/baofreeman/AI-SAAS
+   git clone https://github.com/baofreeman/AISAAS-WEBSITE
    ```
 
 3. Navigate to the project directory:
