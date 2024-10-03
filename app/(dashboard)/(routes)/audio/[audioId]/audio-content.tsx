@@ -113,6 +113,9 @@ const AudioContent = ({ initialMessages }: { initialMessages: any }) => {
 
   return (
     <div className="flex flex-col w-full h-full focus-visible:outline-0">
+      <div className="flex items-center bg-background w-full h-20 top-0 p-4 z-50 md:h-14">
+        <h1 className="text-lg text-left font-bold">Audio</h1>
+      </div>
       <div className="flex-1 overflow-hidden">
         {messages.length === 0 && !isLoading && (
           <Empty label="No conversation started." />
