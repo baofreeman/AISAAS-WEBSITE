@@ -17,6 +17,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     signIn: "/login",
     error: "/error",
   },
+  trustHost: true,
   callbacks: {
     async signIn({ account, profile }) {
       if (account?.provider === "google") {
