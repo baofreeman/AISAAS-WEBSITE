@@ -16,8 +16,8 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - .:/app
-      - ./certs:/etc/letsencrypt
-
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/www/certbot:/var/www/certbot
     depends_on:
       - nextjs
     restart: always
@@ -26,6 +26,6 @@ services:
     image: certbot/certbot
     container_name: certbot
     volumes:
-      - ./certs:/etc/letsencrypt
-      - ./certbot-logs:/var/log/letsencrypt
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/www/certbot:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done'"
