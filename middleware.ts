@@ -22,6 +22,7 @@ export default auth((req) => {
   console.log("Is API auth route:", isApiAuthRoutes);
   console.log("Is public route:", isPublicRoutes);
   console.log("Is auth route:", isAuthRoute);
+  console.log("NEXT_PUBLIC_APP_URL:", process.env.NEXT_PUBLIC_APP_URL);
 
   if (isStripe) {
     console.log("Allowing request to Stripe webhook");
