@@ -44,7 +44,9 @@ const ToolItem: React.FC<ToolItemProps> = ({ icon, slug, title, url }) => {
               <div className={cn(toolItemColorVariants({ color: slug }))} />
               <Image width={24} height={24} src={icon} alt={title} />
             </div>
-            <span className="font-medium">{title}</span>
+            <span className="font-medium text-black dark:text-white">
+              {title}
+            </span>
           </div>
           <ArrowRight />
         </div>
