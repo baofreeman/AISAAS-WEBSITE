@@ -48,7 +48,7 @@ const MediaList: React.FC<MediaListProps> = ({
               <Link
                 href={getItemLink(item.id)}
                 key={item.id}
-                className="border p-4 rounded-lg w-full max-w-md"
+                className="border hover:border-gray-500 dark:hover:border-white p-4 rounded-lg w-full max-w-md"
               >
                 <h1 className="cursor-pointer text-center">
                   Created at ${formattedDate}
