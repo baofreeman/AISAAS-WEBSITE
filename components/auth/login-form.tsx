@@ -2,6 +2,7 @@
 
 import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 const LoginForm = () => {
   const handleGoogleSignIn = () => {
@@ -14,15 +15,20 @@ const LoginForm = () => {
         <h1 className="text-xl font-bold mb-6 pb-2 border-b-2 border-gray-300">
           Login
         </h1>
-
         <Button
-          variant={"destructive"}
+          variant={"default"}
           onClick={handleGoogleSignIn}
-          className="w-full"
+          className="w-full h-full"
         >
-          Sign in with Google
+          <Image
+            src={"/icons/google.png"}
+            alt="google"
+            width={20}
+            height={20}
+          />
+          <h1 className="ml-4">Sign in with Google</h1>
         </Button>
-        <p className="text-sm text-center text-muted-foreground mt-4">
+        <p className="text-xs text-center text-muted-foreground mt-4">
           Sign in to access your account
           <br />
           and start using our AI-powered services.
