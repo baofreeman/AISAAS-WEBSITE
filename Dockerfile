@@ -1,10 +1,14 @@
 FROM node:20-alpine
 
+ENV NODE_ENV=production
+
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm ci
+RUN npm ci --only=production
+
+RUN apk update && apk add --no-cache libssl1.1
 
 COPY . .
 

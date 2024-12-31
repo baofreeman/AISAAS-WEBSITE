@@ -8,8 +8,6 @@ import React, { useState } from "react";
 const CreateNewConversation = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const formattedPathname = pathname.replace(/^\/|\/$/g, "");
-
   const [isLoading, setIsLoading] = useState(false);
 
   const handleCreateConversation = async () => {
