@@ -8,7 +8,7 @@ COPY package*.json ./
 
 RUN npm ci --only=production
 
-RUN apk update && apk add --no-cache libssl1.1
+RUN apk update && apk add --no-cache openssl
 
 COPY . .
 
