@@ -61,13 +61,11 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
                 },
               },
               data: {
-                refresh_token:
-                  account.refresh_token ?? existingAccount.refresh_token,
-                access_token:
-                  account.access_token ?? existingAccount.access_token,
+                refresh_token: account.refresh_token,
+                access_token: account.access_token,
                 expires_at: account.expires_at
                   ? Math.floor(Date.now() / 1000 + account.expires_at)
-                  : existingAccount.expires_at,
+                  : null,
               },
             });
           } else {
