@@ -20,80 +20,82 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   trustHost: true,
   callbacks: {
     async signIn({ account, profile }) {
-  if (account?.provider === "google") {
-    try {
-      const userId = profile?.sub ?? "";
+      if (account?.provider === "google") {
+        try {
+          const userId = profile?.sub ?? "";
 
-      // Check if the user exists
-      let user = await prisma.user.findUnique({
-        where: { id: userId },
-      });
+          // Check if the user exists
+          let user = await prisma.user.findUnique({
+            where: { id: userId },
+          });
 
-      // Create a new user if not exists
-      if (!user) {
-        user = await prisma.user.create({
-          data: {
-            id: userId,
-            name: profile?.name ?? null,
-            email: profile?.email ?? null,
-            image: profile?.picture ?? null,
-          },
-        });
-      }
+          // Create a new user if not exists
+          if (!user) {
+            user = await prisma.user.create({
+              data: {
+                id: userId,
+                name: profile?.name ?? null,
+                email: profile?.email ?? null,
+                image: profile?.picture ?? null,
+              },
+            });
+          }
 
-      // Check if the account exists
-      const existingAccount = await prisma.account.findUnique({
-        where: {
-          provider_providerAccountId: {
-            provider: account.provider,
-            providerAccountId: account.providerAccountId,
-          },
-        },
-      });
-
-      if (existingAccount) {
-        // Update existing account
-        await prisma.account.update({
-          where: {
-            provider_providerAccountId: {
-              provider: account.provider,
-              providerAccountId: account.providerAccountId,
+          // Check if the account exists
+          const existingAccount = await prisma.account.findUnique({
+            where: {
+              provider_providerAccountId: {
+                provider: account.provider,
+                providerAccountId: account.providerAccountId,
+              },
             },
-          },
-          data: {
-            refresh_token: account.refresh_token ?? existingAccount.refresh_token,
-            access_token: account.access_token ?? existingAccount.access_token,
-            expires_at: account.expires_at
-              ? Math.floor(Date.now() / 1000 + account.expires_at)
-              : existingAccount.expires_at,
-          },
-        });
-      } else {
-        // Create a new account
-        await prisma.account.create({
-          data: {
-            userId: user.id,
-            type: account.type,
-            provider: account.provider,
-            providerAccountId: account.providerAccountId,
-            refresh_token: account.refresh_token,
-            access_token: account.access_token,
-            expires_at: account.expires_at
-              ? Math.floor(Date.now() / 1000 + account.expires_at)
-              : null,
-            token_type: account.token_type,
-            scope: account.scope,
-            id_token: account.id_token,
-          },
-        });
+          });
+
+          if (existingAccount) {
+            // Update existing account
+            await prisma.account.update({
+              where: {
+                provider_providerAccountId: {
+                  provider: account.provider,
+                  providerAccountId: account.providerAccountId,
+                },
+              },
+              data: {
+                refresh_token:
+                  account.refresh_token ?? existingAccount.refresh_token,
+                access_token:
+                  account.access_token ?? existingAccount.access_token,
+                expires_at: account.expires_at
+                  ? Math.floor(Date.now() / 1000 + account.expires_at)
+                  : existingAccount.expires_at,
+              },
+            });
+          } else {
+            // Create a new account
+            await prisma.account.create({
+              data: {
+                userId: user.id,
+                type: account.type,
+                provider: account.provider,
+                providerAccountId: account.providerAccountId,
+                refresh_token: account.refresh_token,
+                access_token: account.access_token,
+                expires_at: account.expires_at
+                  ? Math.floor(Date.now() / 1000 + account.expires_at)
+                  : null,
+                token_type: account.token_type,
+                scope: account.scope,
+                id_token: account.id_token,
+              },
+            });
+          }
+        } catch (error) {
+          console.error("Error handling account:", error);
+          return false;
+        }
       }
-    } catch (error) {
-      console.error("Error handling account:", error);
-      return false;
-    }
-  }
-  return true;
-}
+      return true;
+    },
 
     async session({ session, token }) {
       if (session.user) {
