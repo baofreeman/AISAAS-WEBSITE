@@ -10,7 +10,4 @@ export default {
     }),
   ],
   secret: process.env.AUTH_SECRET,
-  error: async (message) => {
-    console.error("NextAuth Error:", message);
-  },
 } satisfies NextAuthConfig;
