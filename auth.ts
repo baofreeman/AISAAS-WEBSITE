@@ -30,9 +30,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
               where: { email: userEmail },
             });
 
-            if (existingEmailUser && existingEmailUser.id !== userId) {
-              console.error("Email already in use by another user:", userEmail);
-              return false;
+            if (existingEmailUser) {
+              return true;
             }
           }
 
@@ -176,6 +175,17 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       }
 
       return session;
+    },
+  },
+  cookies: {
+    sessionToken: {
+      name: `__Secure-next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax",
+        path: "/",
+      },
     },
   },
   ...authConfig,
