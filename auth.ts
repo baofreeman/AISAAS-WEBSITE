@@ -23,6 +23,17 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       if (account?.provider === "google") {
         try {
           const userId = profile?.sub ?? "";
+          const userEmail = profile?.email ?? null;
+
+          if (userEmail) {
+            const existingEmailUser = await prisma.user.findUnique({
+              where: { email: userEmail },
+            });
+
+            if (existingEmailUser) {
+              return true;
+            }
+          }
 
           // Check if the user exists
           let user = await prisma.user.findUnique({
