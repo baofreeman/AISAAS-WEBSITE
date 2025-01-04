@@ -112,11 +112,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       return true;
     },
 
-    async redirect({ url, baseUrl }) {
-      console.log("Redirecting to:", url);
-      return url.startsWith(baseUrl) ? url : baseUrl;
-    },
-
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.sub!;
@@ -182,16 +177,16 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       return session;
     },
   },
-  cookies: {
-    sessionToken: {
-      name: `__Secure-next-auth.session-token`,
-      options: {
-        httpOnly: true,
-        secure: true,
-        sameSite: "lax",
-        path: "/",
-      },
-    },
-  },
+  // cookies: {
+  //   sessionToken: {
+  //     name: `__Secure-next-auth.session-token`,
+  //     options: {
+  //       httpOnly: true,
+  //       secure: true,
+  //       sameSite: "lax",
+  //       path: "/",
+  //     },
+  //   },
+  // },
   ...authConfig,
 });
