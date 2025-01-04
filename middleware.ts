@@ -6,6 +6,7 @@ import {
   PUBLIC_ROUTES,
   DEFAULT_LOGIN_REDIRECT,
 } from "./constants";
+import { NextResponse } from "next/server";
 
 const { auth } = NextAuth(authConfig);
 
@@ -39,7 +40,7 @@ export default auth((req) => {
 
     if (isLoggedIn) {
       console.log("User is logged in, redirecting to:", DEFAULT_LOGIN_REDIRECT);
-      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+      return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
     console.log("User is not logged in, allowing access to auth route");
     return;
@@ -53,7 +54,7 @@ export default auth((req) => {
     }
     const encodedCallbackUrl = encodeURIComponent(callbackUrl);
     console.log("Redirecting to login with callback URL:", encodedCallbackUrl);
-    return Response.redirect(
+    return NextResponse.redirect(
       new URL(`/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
     );
   }
