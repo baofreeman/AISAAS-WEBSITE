@@ -112,6 +112,11 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       return true;
     },
 
+    async redirect({ url, baseUrl }) {
+      console.log("Redirecting to:", url);
+      return url.startsWith(baseUrl) ? url : baseUrl;
+    },
+
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.sub!;
