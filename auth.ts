@@ -23,6 +23,18 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       if (account?.provider === "google") {
         try {
           const userId = profile?.sub ?? "";
+          const userEmail = profile?.email ?? null;
+
+          if (userEmail) {
+            const existingEmailUser = await prisma.user.findUnique({
+              where: { email: userEmail },
+            });
+
+            if (existingEmailUser && existingEmailUser.id !== userId) {
+              console.error("Email already in use by another user:", userEmail);
+              return false;
+            }
+          }
 
           // Check if the user exists
           let user = await prisma.user.findUnique({
@@ -87,8 +99,14 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
               },
             });
           }
-        } catch (error) {
-          console.error("Error handling account:", error);
+        } catch (error: any) {
+          if (error.code === "P2002") {
+            console.error(
+              `Unique constraint failed on field: ${error.meta?.target}`
+            );
+          } else {
+            console.error("Error handling account:", error);
+          }
           return false;
         }
       }
