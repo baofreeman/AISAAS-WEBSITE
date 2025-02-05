@@ -20,27 +20,18 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   trustHost: true,
   callbacks: {
     async signIn({ account, profile }) {
+      console.log("Account:", account);
+      console.log("Profile:", profile);
       if (account?.provider === "google") {
         try {
           const userId = profile?.sub ?? "";
           const userEmail = profile?.email ?? null;
 
-          if (userEmail) {
-            const existingEmailUser = await prisma.user.findUnique({
-              where: { email: userEmail },
-            });
-
-            if (existingEmailUser) {
-              return true;
-            }
-          }
-
-          // Check if the user exists
+          if (!userEmail) return false;
           let user = await prisma.user.findUnique({
-            where: { id: userId },
+            where: { email: userEmail },
           });
 
-          // Create a new user if not exists
           if (!user) {
             user = await prisma.user.create({
               data: {
@@ -52,7 +43,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             });
           }
 
-          // Check if the account exists
           const existingAccount = await prisma.account.findUnique({
             where: {
               provider_providerAccountId: {
@@ -75,7 +65,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
                 refresh_token: account.refresh_token,
                 access_token: account.access_token,
                 expires_at: account.expires_at
-                  ? Math.floor(Date.now() / 1000 + account.expires_at)
+                  ? Math.floor(account.expires_at)
                   : null,
               },
             });
@@ -90,7 +80,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
                 refresh_token: account.refresh_token,
                 access_token: account.access_token,
                 expires_at: account.expires_at
-                  ? Math.floor(Date.now() / 1000 + account.expires_at)
+                  ? Math.floor(account.expires_at)
                   : null,
                 token_type: account.token_type,
                 scope: account.scope,
@@ -157,7 +147,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           await prisma.account.update({
             data: {
               access_token: newTokens.access_token,
-              expires_at: Math.floor(Date.now() / 1000 + newTokens.expires_in),
+              expires_at: Math.floor(Date.now() / 1000) + newTokens.expires_in,
               refresh_token:
                 newTokens.refresh_token ?? googleAccount.refresh_token,
             },
