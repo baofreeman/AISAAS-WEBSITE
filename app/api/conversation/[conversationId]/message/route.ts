@@ -6,7 +6,6 @@ import {
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 import prisma from "@/lib/prismadb";
-import { auth } from "@/auth";
 import { currentUser } from "@/lib/auth";
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
