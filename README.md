@@ -43,13 +43,16 @@ Based on ChatGPT and custom personal designs
 
 ### **Containerization**
 
-- **Tools**: Docker, Docker Compose
+- **Tools**: Vercel
 
-### **Deployment**
+## **Deployment and Hosting**
 
-- **Server**: AWS EC2
-- **Web Server**: Nginx
-- **SSL**: Certbot
+### **Deployment on Vercel**
+
+- **Hosting Service**: Vercel (Frontend & API Routes)
+- **Automatic Deployment**: Integrated with GitHub for seamless CI/CD
+- **Scalability**: Serverless infrastructure for optimal performance
+- **Custom Domains & SSL**: Free HTTPS with custom domain support
 
 ## **Key Features**
 
@@ -80,16 +83,6 @@ Based on ChatGPT and custom personal designs
 
 This project utilizes Docker and Gitflow for streamlined development and deployment.
 
-### **Docker Containerization**
-
-- **Consistent Environment**: Full-stack Next.js application containerized for consistency across environments
-- **Docker Compose**: Efficient container orchestration for simplified management
-
-### **Gitflow Deployment Workflow**
-
-- **Structured Development**: Organized branching model for collaborative development
-- **Automated EC2 Deployment**: CI/CD pipeline with GitHub Actions for seamless updates
-
 ## **How to Run the Project Locally**
 
 ### **Next.js Setup**
@@ -116,34 +109,9 @@ This project utilizes Docker and Gitflow for streamlined development and deploym
    ```bash
    npm run dev
    ```
-
-### **Running with Docker**
-
-1. Ensure Docker and Docker Compose are installed
-
-2. Clone the repository:
-
+5. Open the application in your browser:
    ```bash
-   git clone https://github.com/baofreeman/AISAAS-WEBSITE
-   ```
-
-3. Navigate to the project directory:
-
-   ```bash
-   cd AI-SAAS
-   ```
-
-4. Build and start Docker containers:
-
-   ```bash
-   docker-compose up --build
-   ```
-
-5. Access the application at `http://localhost` in your web browser
-
-6. To stop the containers:
-   ```bash
-   docker-compose down
+   http://localhost:3000
    ```
 
 ## **Contribution**
