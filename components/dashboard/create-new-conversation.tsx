@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { SquarePen } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
+import Loader from "../loader";
 
 const CreateNewConversation = () => {
   const router = useRouter();
@@ -37,7 +38,7 @@ const CreateNewConversation = () => {
       disabled={isLoading}
       className="py-4 border-none"
     >
-      <SquarePen size={24} />
+      {isLoading ? <Loader /> : <SquarePen size={24} />}
     </Button>
   );
 };
