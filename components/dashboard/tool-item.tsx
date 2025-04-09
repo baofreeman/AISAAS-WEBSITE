@@ -32,7 +32,9 @@ const ToolItem: React.FC<ToolItemProps> = ({ icon, slug, title, url }) => {
     <div
       className={cn(
         "group flex items-center p-3.5 border rounded-xl transition-all",
-        "hover:border-gray dark:hover:border-white hover:shadow-[0_0_1rem_0.25rem_rgba(0,0,0,0.04),0px_2rem_1.5rem_-1rem_rgba(0,0,0,0.12)] 2xl:p-2.5 lg:p-3.5",
+        "border-gray-400",
+        "hover:border-gray-800",
+        "hover:shadow-[0_0_1rem_0.25rem_rgba(0,0,0,0.04),0px_2rem_1.5rem_-1rem_rgba(0,0,0,0.12)] 2xl:p-2.5 lg:p-3.5",
         "lg:p-3.5",
         "2xl:p-2.5"
       )}
@@ -44,11 +46,13 @@ const ToolItem: React.FC<ToolItemProps> = ({ icon, slug, title, url }) => {
               <div className={cn(toolItemColorVariants({ color: slug }))} />
               <Image width={24} height={24} src={icon} alt={title} />
             </div>
-            <span className="font-medium text-black dark:text-white">
+            <span className="font-medium text-gray-500 dark:text-white">
               {title}
             </span>
           </div>
-          <ArrowRight />
+          <span className="text-gray-500 dark:text-white">
+            <ArrowRight />
+          </span>
         </div>
       </Link>
     </div>

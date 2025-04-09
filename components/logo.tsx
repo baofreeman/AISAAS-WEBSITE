@@ -6,7 +6,12 @@ interface LogoProps {
 
 const Logo: React.FC<LogoProps> = ({ className }) => {
   return (
-    <div className={cn("flex items-center", className)}>
+    <div
+      className={cn(
+        "flex items-center text-gray-500 dark:text-white",
+        className
+      )}
+    >
       <svg
         width="41"
         height="41"
