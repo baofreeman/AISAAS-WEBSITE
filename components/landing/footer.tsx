@@ -11,8 +11,8 @@ const Footer = () => {
         )}
       >
         <Logo />
-        <div className={cn("text-sm mt-4", "lg:mt-0")}>
-          <p>&copy; 2024 Feeman. All rights reserved.</p>
+        <div className={cn("text-sm mt-4 text-gray-500", "lg:mt-0")}>
+          <p>&copy; 2024 Freeman. All rights reserved.</p>
         </div>
       </div>
     </footer>
